@@ -1,6 +1,5 @@
-
 using Microsoft.EntityFrameworkCore;
-using Talabat.APIs.Profiles;
+using Talabat.APIs.Helpers;
 using Talabat.Core.Repositories;
 using Talabat.Repository;
 using Talabat.Repository.Data;
@@ -64,7 +63,7 @@ namespace Talabat.APIs
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
 
             app.UseAuthorization();

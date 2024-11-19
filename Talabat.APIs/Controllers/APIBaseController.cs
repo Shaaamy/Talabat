@@ -5,7 +5,7 @@ namespace Talabat.APIs.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class APIController : ControllerBase
+    public class APIBaseController : ControllerBase
     {
     }
 }

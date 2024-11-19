@@ -8,9 +8,8 @@ using Talabat.Core.Specifications;
 
 namespace Talabat.APIs.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ProductsController : APIController
+    
+    public class ProductsController : APIBaseController
     {
         private readonly IGenericRepository<Product> _productRepo;
         private readonly IMapper _mapper;

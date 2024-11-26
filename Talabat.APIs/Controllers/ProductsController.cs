@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Talabat.APIs.DTOs;
 using Talabat.APIs.Errors;
@@ -30,7 +29,8 @@ namespace Talabat.APIs.Controllers
             var Products = await _productRepo.GetAllWithSpecAsync(Spec);
             if(Products == null) 
                 return NotFound(new ApiResponse(404));
-            var MappedProduct = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductToReturnDto>>(Products);
+            var MappedProduct = _mapper.Map<IEnumerable<ProductToReturnDto>>(Products);
+
             //OkObjectResult result = new OkObjectResult(Products);
             //return result;
             return Ok(MappedProduct);
@@ -38,13 +38,16 @@ namespace Talabat.APIs.Controllers
         //Get Product By Id
         // BaseUrl/api/ControllerName/{id} ->GET
         [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProduct(int id)
+        [ProducesResponseType(typeof(ProductToReturnDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProductById(int id)
         {
             var Spec = new ProductWithBrandAndTypeSpecifications(id);
             var Product = await _productRepo.GetByIdWithSpecAsync(Spec);
             if (Product == null)
                 return NotFound(new ApiResponse(404));
-            var MappedProduct = _mapper.Map<Product, ProductToReturnDto>(Product);
+            var product =Product.Id = 500;
+            var MappedProduct = _mapper.Map<ProductToReturnDto>(product);
             return Ok(MappedProduct);
         }
 

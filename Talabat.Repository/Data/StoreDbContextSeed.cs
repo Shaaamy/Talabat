@@ -16,7 +16,8 @@ namespace Talabat.Repository.Data
            if(!dbContext.ProductBrands.Any())
             {
                 var BrandData = File.ReadAllText("../Talabat.Repository/Data/DataSeed/brands.json");
-                var Brands = JsonSerializer.Deserialize<List<ProductBrand>>(BrandData);
+                var Brands = JsonSerializer.Deserialize<List<ProductBrand>>(BrandData); //convert json string into object 
+                //Why?: Converts the JSON data into a format the application can use (e.g., C# objects).
                 if (Brands?.Count > 0)
                 {
                     foreach (var Brand in Brands)
@@ -46,7 +47,6 @@ namespace Talabat.Repository.Data
                     await dbContext.SaveChangesAsync();
                 }
             }
-            
 
 
 

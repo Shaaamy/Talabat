@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Talabat.APIs.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class APIBaseController : ControllerBase
+    [Route("api/[controller]")]
+    public class APIBaseController : ControllerBase 
     {
     }
 }

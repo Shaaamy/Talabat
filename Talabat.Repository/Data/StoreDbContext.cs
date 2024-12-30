@@ -27,9 +27,10 @@ namespace Talabat.Repository.Data
             //modelBuilder.ApplyConfiguration(new ProductBrandConfigurations());
             //modelBuilder.ApplyConfiguration(new ProductTypeConfigurations());
 
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly()); //This method scans the specified assembly (in this case, the executing assembly) for all classes implementing the IEntityTypeConfiguration<T> interface and applies them automatically.
 
             base.OnModelCreating(modelBuilder);
         }
+
     }
 }

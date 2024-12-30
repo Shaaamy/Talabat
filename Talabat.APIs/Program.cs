@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Talabat.APIs.Errors;
+using Talabat.APIs.Extentions;
 using Talabat.APIs.Helpers;
 using Talabat.APIs.Middlewares;
 using Talabat.Core.Repositories;
@@ -26,27 +27,11 @@ namespace Talabat.APIs
             builder.Services.AddDbContext<StoreDbContext>(Options =>
             {
                 Options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-            });     
-            
-            builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
-            builder.Services.AddAutoMapper(typeof(MappingProfiles));
-            builder.Services.Configure<ApiBehaviorOptions>(Options =>
-            {
-                Options.InvalidModelStateResponseFactory = (actionContext) =>
-                {
-                    var errors = actionContext.ModelState.Where(P => P.Value.Errors.Count() > 0)
-                                                         .SelectMany(P => P.Value.Errors)
-                                                         .Select(E => E.ErrorMessage)
-                                                         .ToArray();
-                    var ValidationErrorResponse = new ApiValidationErrorResponse()
-                    {
-                        Errors = errors
-                    };
-                    return new BadRequestObjectResult(ValidationErrorResponse);
-                };
             });
+
+            builder.Services.AddApplicationServices();
             #endregion
-            
+
             var app = builder.Build();
 
             #region Update Database and data seeding
@@ -76,11 +61,10 @@ namespace Talabat.APIs
 
 
             // Configure the HTTP request pipeline.
-            app.UseMiddleware<ExceptionMiddleware>();
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+               app.UseMiddleware<ExceptionMiddleware>();
+               app.UseSwaggerMiddlewares();
             }
             app.UseStatusCodePagesWithReExecute("/errors/{0}");
             app.UseStaticFiles();

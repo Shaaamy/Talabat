@@ -39,6 +39,7 @@ namespace Talabat.Core.Specifications
             Skip= skip;
             Take= take;
         }
+        
 
     }
 }

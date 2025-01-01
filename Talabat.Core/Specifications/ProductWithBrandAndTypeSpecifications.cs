@@ -13,6 +13,8 @@ namespace Talabat.Core.Specifications
 
         public ProductWithBrandAndTypeSpecifications(ProductSpecParams Params)
             : base(P =>
+                    (string.IsNullOrEmpty(Params.Search)||P.Name.Contains(Params.Search))
+                    &&
                     (!Params.BrandId.HasValue || P.ProductBrandId == Params.BrandId)
                     &&
                     (!Params.TypeId.HasValue || P.ProductTypeId == Params.TypeId)
@@ -38,6 +40,7 @@ namespace Talabat.Core.Specifications
             }
             //size=10 , index=5
             ApplyPagination((Params.PageSize * (Params.PageIndex - 1)), Params.PageSize);
+            
         }
         public ProductWithBrandAndTypeSpecifications(int id) : base(P=>P.Id == id)
         {

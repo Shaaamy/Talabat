@@ -1,13 +1,18 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
+using System;
 using Talabat.APIs.Errors;
 using Talabat.APIs.Extentions;
 using Talabat.APIs.Helpers;
 using Talabat.APIs.Middlewares;
+using Talabat.Core.Entities.Identity;
 using Talabat.Core.Repositories;
 using Talabat.Repository;
 using Talabat.Repository.Data;
+using Talabat.Repository.Identity;
 
 namespace Talabat.APIs
 {
@@ -29,7 +34,10 @@ namespace Talabat.APIs
             {
                 Options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
-
+            builder.Services.AddDbContext<AppIdentityDbContext>(Options =>
+            {
+                Options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection"));
+            });
             builder.Services.AddSingleton<IConnectionMultiplexer>(Options =>
             {
                 var Connection = builder.Configuration.GetConnectionString("RedisConnection");
@@ -37,6 +45,7 @@ namespace Talabat.APIs
             });
 
             builder.Services.AddApplicationServices();
+            builder.Services.AddIdentityServices();
             #endregion
 
             var app = builder.Build();
@@ -46,11 +55,14 @@ namespace Talabat.APIs
             using var Scope = app.Services.CreateScope();
             var Services = Scope.ServiceProvider;
             var LoggerFactory = Services.GetRequiredService<ILoggerFactory>();
-
             try
             {
                 var dbContext = Services.GetRequiredService<StoreDbContext>();
                 await dbContext.Database.MigrateAsync();
+                var IdentityDbContext = Services.GetRequiredService<AppIdentityDbContext>();
+                await IdentityDbContext.Database.MigrateAsync();
+                var UserManager = Services.GetRequiredService<UserManager<AppUser>>();
+                await AppIdentityDbContextSeed.SeedidentityAsync(UserManager);
                 await StoreDbContextSeed.SeedAsync(dbContext);
             }
             catch (Exception ex)

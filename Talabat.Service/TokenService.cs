@@ -36,12 +36,11 @@ namespace Talabat.Service
             {
                 AuthClaims.Add(new Claim(ClaimTypes.Role, Role));
             }
-            var secretKey = "5c7d93df9e5e40d79a6e6d7679b57a5d983db12087a457c6a9b4a8c3f4b67fd"; // At least 32 characters
 
             var AuthKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Key"]));
             var Token = new JwtSecurityToken(
                  issuer: configuration["JWT:ValidIssuer"],
-                 audience: configuration["JWT:Audience"],
+                 audience: configuration["JWT:ValidAudience"],
                  expires: DateTime.Now.AddDays(double.Parse(configuration["JWT:DurationInDays"])),
                  claims: AuthClaims,
                  signingCredentials : new SigningCredentials(AuthKey,SecurityAlgorithms.HmacSha256Signature)

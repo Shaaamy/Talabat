@@ -29,7 +29,7 @@ namespace Talabat.Repository
         {
             return await _dbContext.Set<T>().FindAsync(id);
         }
-
+        
         #endregion
       
         public async Task<IReadOnlyList<T>> GetAllWithSpecAsync(ISpecifications<T> Spec)
@@ -51,6 +51,8 @@ namespace Talabat.Repository
             return SpecificationsEvalutor<T>.GetQuery(_dbContext.Set<T>(), Spec);
         }
 
-       
+        public async Task AddAsync(T t)
+            => await _dbContext.Set<T>().AddAsync(t);
+        
     }
 }

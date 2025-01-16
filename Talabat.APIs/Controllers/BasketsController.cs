@@ -30,7 +30,7 @@ namespace Talabat.APIs.Controllers
         //UPDATE Or Create New Basket
         [HttpPost]
         public async Task<ActionResult<CustomerBasket>> UpdateBasket(CustomerBasketDto Basket)
-        {
+         {
             var MappedBasket = _mapper.Map<CustomerBasket>(Basket);
             var CreatedOrUpdatedBasket =await _basketRepository.UpdateBasketAsync(MappedBasket);
             if (CreatedOrUpdatedBasket is null) return BadRequest(new ApiResponse(400));

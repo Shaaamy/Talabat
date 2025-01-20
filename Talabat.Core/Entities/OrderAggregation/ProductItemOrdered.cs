@@ -12,15 +12,15 @@ namespace Talabat.Core.Entities.OrderAggregation
         {
             
         }
-        public ProductItemOrdered(int productId, string productname, string productUrl)
+        public ProductItemOrdered(int productId, string productname, string pictureUrl)
         {
             ProductId = productId;
             Productname = productname;
-            ProductUrl = productUrl;
+            PictureUrl = pictureUrl;
         }
 
         public int ProductId { get; set; }
         public string Productname { get; set; }
-        public string ProductUrl { get; set; }
+        public string PictureUrl { get; set; }
     }
 }

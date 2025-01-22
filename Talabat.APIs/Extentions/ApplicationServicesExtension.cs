@@ -18,6 +18,7 @@ namespace Talabat.APIs.Extentions
             //Services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
             Services.AddScoped<IUnitOfWork, UnitOfWork>();
             Services.AddScoped<IOrderService, OrderService>();
+            Services.AddScoped<IPaymentService, PaymentService>();
             Services.AddAutoMapper(typeof(MappingProfiles));
             Services.Configure<ApiBehaviorOptions>(Options =>
             {

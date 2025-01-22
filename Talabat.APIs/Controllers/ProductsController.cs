@@ -47,7 +47,7 @@ namespace Talabat.APIs.Controllers
         public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProductById(int id)
         {
             var Spec = new ProductWithBrandAndTypeSpecifications(id);
-            var Product = await _unitOfWork.Repository<Product>().GetByIdWithSpecAsync(Spec);
+            var Product = await _unitOfWork.Repository<Product>().GetEntityWithSpecAsync(Spec);
             if (Product == null)
                 return NotFound(new ApiResponse(404));
             //var product =Product.Id = 500; buggy for server error

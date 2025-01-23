@@ -20,10 +20,6 @@ namespace Talabat.Core.Specifications.OrderSpecifications
             Includes.Add(O => O.DeliveryMethod);
             Includes.Add(O => O.Items);
         }
-        public OrderSpecifications(string paymentIntentId) : base(O=>O.PaymentIntentId == paymentIntentId)
-        {
-            Includes.Add(O => O.DeliveryMethod);
-            Includes.Add(O => O.Items);
-        }
+     
     }
 }
